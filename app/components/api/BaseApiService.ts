@@ -7,8 +7,8 @@ class BaseAPIService {
         method: string,
         params: object = []
     ): Promise<any> {
-        // const baseUrl = 'https://global-clock-api-main-tf1yfc.laravel.cloud/api/';
-        const baseUrl = 'http://127.0.0.1:8000/api/';
+        const baseUrl = 'https://global-clock-api-main-tf1yfc.laravel.cloud/api/';
+        // const baseUrl = 'http://127.0.0.1:8000/api/';
         let config: any = null;
         if (method === "GET") {
             // GET
