@@ -65,6 +65,7 @@ function subscribeToUpdates() {
         channel.listen("CountdownSequenceUpdated", (event: any) => {
             if (event.sequence) {
                 sequence.value = event.sequence;
+                serverNow.value = event.now ?? null;
             }
         });
 
