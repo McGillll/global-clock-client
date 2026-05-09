@@ -449,6 +449,13 @@
                                         Edit
                                     </button>
                                     <button
+                                        @click="copySequenceShareUrl(seq.id)"
+                                        class="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-cyan-300/30 hover:text-cyan-300 disabled:opacity-50"
+                                        :disabled="controlling === seq.id"
+                                    >
+                                        {{ copiedSequenceId === seq.id ? 'Copied!' : 'Share' }}
+                                    </button>
+                                    <button
                                         @click="deleteSequence(seq.id)"
                                         class="rounded-full border border-red-500/30 px-4 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500/20 disabled:opacity-50"
                                         :disabled="controlling === seq.id"
@@ -498,6 +505,7 @@ const shareUrl = ref("");
 const showCreateForm = ref(false);
 const editingId = ref<number | null>(null);
 const sequenceItems = ref<CountdownRecord[]>([]);
+const copiedSequenceId = ref<number | null>(null);
 
 const editForm = reactive({
     name: "",
@@ -642,6 +650,25 @@ async function deleteSequence(sequenceId: number) {
     await countdownService.deleteSequence(sequenceId);
     await loadSequences();
     controlling.value = null;
+}
+
+async function copySequenceShareUrl(sequenceId: number) {
+    try {
+        const response = await countdownService.getSequence(sequenceId);
+        const token = response.data?.share?.token;
+        if (!token) {
+            console.error("No share token found");
+            return;
+        }
+        const url = `${window.location.origin}/shared/${token}`;
+        await navigator.clipboard.writeText(url);
+        copiedSequenceId.value = sequenceId;
+        setTimeout(() => {
+            copiedSequenceId.value = null;
+        }, 2000);
+    } catch (error) {
+        console.error("Failed to copy share URL:", error);
+    }
 }
 
 const editingSequenceId = ref<number | null>(null);
