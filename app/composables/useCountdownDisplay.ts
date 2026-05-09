@@ -6,6 +6,8 @@ type CountdownSequenceItem = {
         id: number;
         name: string;
         duration_seconds: number;
+        background_color?: string;
+        font_color?: string;
     };
 };
 

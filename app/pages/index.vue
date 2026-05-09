@@ -101,6 +101,55 @@
                                 />
                             </label>
 
+                            <!-- Colors -->
+                            <div class="grid gap-3 pt-2 border-t border-white/10">
+                                <label class="grid gap-1.5">
+                                    <span class="text-sm font-medium text-slate-300">Background Color</span>
+                                    <div class="flex items-center gap-3">
+                                        <input
+                                            v-model="countdownForm.background_color"
+                                            type="color"
+                                            class="h-10 w-14 rounded-lg border border-white/10 cursor-pointer"
+                                        />
+                                        <input
+                                            v-model="countdownForm.background_color"
+                                            type="text"
+                                            class="flex-1 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition font-mono"
+                                            placeholder="#0f172a"
+                                        />
+                                    </div>
+                                </label>
+
+                                <label class="grid gap-1.5">
+                                    <span class="text-sm font-medium text-slate-300">Font Color</span>
+                                    <div class="flex items-center gap-3">
+                                        <input
+                                            v-model="countdownForm.font_color"
+                                            type="color"
+                                            class="h-10 w-14 rounded-lg border border-white/10 cursor-pointer"
+                                        />
+                                        <input
+                                            v-model="countdownForm.font_color"
+                                            type="text"
+                                            class="flex-1 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition font-mono"
+                                            placeholder="#f1f5f9"
+                                        />
+                                    </div>
+                                </label>
+
+                                <!-- Contrast status -->
+                                <div 
+                                    class="rounded-lg px-3 py-2 text-xs font-medium transition"
+                                    :class="{
+                                        'bg-green-400/20 text-green-300 border border-green-400/40': createFormContrast.status === 'good',
+                                        'bg-yellow-400/20 text-yellow-300 border border-yellow-400/40': createFormContrast.status === 'warning',
+                                        'bg-red-400/20 text-red-300 border border-red-400/40': createFormContrast.status === 'fail',
+                                    }"
+                                >
+                                    {{ createFormContrast.text }}
+                                </div>
+                            </div>
+
                             <div class="flex items-center gap-3">
                                 <button
                                     type="submit"
@@ -175,6 +224,55 @@
                                 />
                             </label>
 
+                            <!-- Colors -->
+                            <div class="grid gap-2 pt-2 border-t border-white/10">
+                                <label class="grid gap-1.5">
+                                    <span class="text-xs font-medium text-slate-400">Background</span>
+                                    <div class="flex items-center gap-2">
+                                        <input
+                                            v-model="editForm.background_color"
+                                            type="color"
+                                            class="h-8 w-12 rounded-lg border border-white/10 cursor-pointer"
+                                        />
+                                        <input
+                                            v-model="editForm.background_color"
+                                            type="text"
+                                            class="flex-1 rounded-lg border border-white/10 bg-slate-900/80 px-2.5 py-1.5 text-xs outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition font-mono"
+                                            placeholder="#0f172a"
+                                        />
+                                    </div>
+                                </label>
+
+                                <label class="grid gap-1.5">
+                                    <span class="text-xs font-medium text-slate-400">Font</span>
+                                    <div class="flex items-center gap-2">
+                                        <input
+                                            v-model="editForm.font_color"
+                                            type="color"
+                                            class="h-8 w-12 rounded-lg border border-white/10 cursor-pointer"
+                                        />
+                                        <input
+                                            v-model="editForm.font_color"
+                                            type="text"
+                                            class="flex-1 rounded-lg border border-white/10 bg-slate-900/80 px-2.5 py-1.5 text-xs outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition font-mono"
+                                            placeholder="#f1f5f9"
+                                        />
+                                    </div>
+                                </label>
+
+                                <!-- Contrast status -->
+                                <div 
+                                    class="rounded-lg px-2.5 py-1.5 text-xs font-medium transition"
+                                    :class="{
+                                        'bg-green-400/20 text-green-300 border border-green-400/40': editFormContrast.status === 'good',
+                                        'bg-yellow-400/20 text-yellow-300 border border-yellow-400/40': editFormContrast.status === 'warning',
+                                        'bg-red-400/20 text-red-300 border border-red-400/40': editFormContrast.status === 'fail',
+                                    }"
+                                >
+                                    {{ editFormContrast.text }}
+                                </div>
+                            </div>
+
                             <div class="flex items-center gap-2">
                                 <button
                                     type="submit"
@@ -194,6 +292,23 @@
                             <p class="text-xs uppercase tracking-[0.25em] text-slate-500">{{ formatDuration(item.duration_seconds) }}</p>
                             <h3 class="mt-2 text-base font-semibold text-white">{{ item.name }}</h3>
                             <p v-if="item.notes" class="mt-1 text-xs text-slate-400 line-clamp-2">{{ item.notes }}</p>
+                            
+                            <!-- Color preview -->
+                            <div v-if="item.background_color || item.font_color" class="mt-2 flex items-center gap-2">
+                                <div class="flex items-center gap-1.5">
+                                    <div 
+                                        class="w-5 h-5 rounded-md border border-white/20" 
+                                        :style="{ backgroundColor: item.background_color || '#0f172a' }"
+                                        :title="`Background: ${item.background_color}`"
+                                    />
+                                    <div 
+                                        class="w-5 h-5 rounded-md border border-white/20" 
+                                        :style="{ backgroundColor: item.font_color || '#f1f5f9' }"
+                                        :title="`Font: ${item.font_color}`"
+                                    />
+                                </div>
+                            </div>
+
                             <div class="mt-3 flex items-center gap-2">
                                 <button
                                     @click="openEdit(item)"
@@ -486,6 +601,8 @@ type CountdownRecord = {
     name: string;
     duration_seconds: number;
     notes?: string;
+    background_color?: string;
+    font_color?: string;
 };
 
 type SequenceRecord = {
@@ -511,6 +628,8 @@ const editForm = reactive({
     name: "",
     duration_seconds: 60,
     notes: "",
+    background_color: "#0f172a",
+    font_color: "#f1f5f9",
 });
 
 const durationPresets = [
@@ -527,6 +646,8 @@ const countdownForm = reactive({
     name: "",
     duration_seconds: 60,
     notes: "",
+    background_color: "#0f172a",
+    font_color: "#f1f5f9",
 });
 
 const sequenceForm = reactive({
@@ -545,11 +666,60 @@ function formatDuration(seconds: number): string {
     return s > 0 ? `${m}m ${s}s` : `${m}m`;
 }
 
+// Color contrast checking utilities
+function hexToRgb(hex: string): [number, number, number] | null {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1]!, 16) / 255,
+        parseInt(result[2]!, 16) / 255,
+        parseInt(result[3]!, 16) / 255,
+    ] : null;
+}
+
+function getLuminance(rgb: [number, number, number]): number {
+    const [r, g, b] = rgb;
+    const luminance = (c: number) => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    return 0.2126 * luminance(r) + 0.7152 * luminance(g) + 0.0722 * luminance(b);
+}
+
+function getContrastRatio(hex1: string, hex2: string): number | null {
+    const rgb1 = hexToRgb(hex1);
+    const rgb2 = hexToRgb(hex2);
+    if (!rgb1 || !rgb2) return null;
+    
+    const l1 = getLuminance(rgb1);
+    const l2 = getLuminance(rgb2);
+    const lighter = Math.max(l1, l2);
+    const darker = Math.min(l1, l2);
+    
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+function getContrastStatus(ratio: number | null): { status: 'good' | 'warning' | 'fail', text: string } {
+    if (ratio === null) return { status: 'fail', text: 'Invalid color format' };
+    if (ratio >= 7) return { status: 'good', text: `Excellent contrast (${ratio.toFixed(1)}:1)` };
+    if (ratio >= 4.5) return { status: 'good', text: `Good contrast (${ratio.toFixed(1)}:1)` };
+    if (ratio >= 3) return { status: 'warning', text: `Low contrast (${ratio.toFixed(1)}:1)` };
+    return { status: 'fail', text: `Very poor contrast (${ratio.toFixed(1)}:1)` };
+}
+
+const createFormContrast = computed(() => {
+    const ratio = getContrastRatio(countdownForm.background_color, countdownForm.font_color);
+    return getContrastStatus(ratio);
+});
+
+const editFormContrast = computed(() => {
+    const ratio = getContrastRatio(editForm.background_color, editForm.font_color);
+    return getContrastStatus(ratio);
+});
+
 function openEdit(item: CountdownRecord) {
     editingId.value = item.id;
     editForm.name = item.name;
     editForm.duration_seconds = item.duration_seconds;
     editForm.notes = item.notes ?? "";
+    editForm.background_color = item.background_color ?? "#0f172a";
+    editForm.font_color = item.font_color ?? "#f1f5f9";
     showCreateForm.value = false;
 }
 
@@ -563,6 +733,8 @@ async function saveEdit() {
         name: editForm.name,
         duration_seconds: Number(editForm.duration_seconds),
         notes: editForm.notes,
+        background_color: editForm.background_color,
+        font_color: editForm.font_color,
     });
     editingId.value = null;
     await loadData();
@@ -604,6 +776,8 @@ async function createCountdown() {
     countdownForm.name = "";
     countdownForm.duration_seconds = 60;
     countdownForm.notes = "";
+    countdownForm.background_color = "#0f172a";
+    countdownForm.font_color = "#f1f5f9";
     await loadData();
     setTimeout(() => {
         feedback.value = "";
