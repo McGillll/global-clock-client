@@ -1,5 +1,5 @@
 <template>
-    <main class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="min-h-screen bg-slate-950 text-slate-100 pb-24 md:pb-0">
         <section class="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6 lg:px-10">
             <HorizontalNavStrip v-model="activeTab" />
             <header class="space-y-2">
@@ -79,14 +79,14 @@
                                         {{ p.label }}
                                     </button>
                                 </div>
-                                <div class="flex items-center gap-3 mt-1">
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 mt-1">
                                     <input
                                         v-model.number="countdownForm.duration_seconds"
                                         type="number"
                                         min="1"
-                                        class="w-32 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition tabular-nums"
+                                        class="w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-cyan-300/50 transition tabular-nums sm:w-32"
                                     />
-                                    <span class="text-sm text-slate-400">seconds &nbsp;·&nbsp; {{ formatDuration(countdownForm.duration_seconds) }}</span>
+                                    <span class="text-sm text-slate-400 sm:text-sm">seconds &nbsp;·&nbsp; {{ formatDuration(countdownForm.duration_seconds) }}</span>
                                 </div>
                             </div>
 
@@ -105,11 +105,11 @@
                             <div class="grid gap-3 pt-2 border-t border-white/10">
                                 <label class="grid gap-1.5">
                                     <span class="text-sm font-medium text-slate-300">Background Color</span>
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                                         <input
                                             v-model="countdownForm.background_color"
                                             type="color"
-                                            class="h-10 w-14 rounded-lg border border-white/10 cursor-pointer"
+                                            class="h-10 w-full rounded-lg border border-white/10 cursor-pointer sm:w-14"
                                         />
                                         <input
                                             v-model="countdownForm.background_color"
@@ -122,11 +122,11 @@
 
                                 <label class="grid gap-1.5">
                                     <span class="text-sm font-medium text-slate-300">Font Color</span>
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                                         <input
                                             v-model="countdownForm.font_color"
                                             type="color"
-                                            class="h-10 w-14 rounded-lg border border-white/10 cursor-pointer"
+                                            class="h-10 w-full rounded-lg border border-white/10 cursor-pointer sm:w-14"
                                         />
                                         <input
                                             v-model="countdownForm.font_color"
@@ -139,7 +139,7 @@
 
                                 <!-- Contrast status -->
                                 <div 
-                                    class="rounded-lg px-3 py-2 text-xs font-medium transition"
+                                    class="rounded-lg px-3 py-2 text-xs font-medium leading-relaxed transition"
                                     :class="{
                                         'bg-green-400/20 text-green-300 border border-green-400/40': createFormContrast.status === 'good',
                                         'bg-yellow-400/20 text-yellow-300 border border-yellow-400/40': createFormContrast.status === 'warning',
@@ -150,7 +150,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-3">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                                 <button
                                     type="submit"
                                     :disabled="!countdownForm.name.trim()"
@@ -161,7 +161,7 @@
                                 <button type="button" @click="cancelCreate" class="rounded-full border border-white/10 px-4 py-2.5 text-sm text-slate-400 transition hover:bg-white/5">
                                     Cancel
                                 </button>
-                                <p v-if="feedback" class="ml-auto text-sm text-cyan-300">{{ feedback }}</p>
+                                <p v-if="feedback" class="text-sm text-cyan-300 sm:ml-auto">{{ feedback }}</p>
                             </div>
                         </form>
                     </div>
@@ -228,11 +228,11 @@
                             <div class="grid gap-2 pt-2 border-t border-white/10">
                                 <label class="grid gap-1.5">
                                     <span class="text-xs font-medium text-slate-400">Background</span>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
                                         <input
                                             v-model="editForm.background_color"
                                             type="color"
-                                            class="h-8 w-12 rounded-lg border border-white/10 cursor-pointer"
+                                            class="h-8 w-full rounded-lg border border-white/10 cursor-pointer sm:w-12"
                                         />
                                         <input
                                             v-model="editForm.background_color"
@@ -245,11 +245,11 @@
 
                                 <label class="grid gap-1.5">
                                     <span class="text-xs font-medium text-slate-400">Font</span>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
                                         <input
                                             v-model="editForm.font_color"
                                             type="color"
-                                            class="h-8 w-12 rounded-lg border border-white/10 cursor-pointer"
+                                            class="h-8 w-full rounded-lg border border-white/10 cursor-pointer sm:w-12"
                                         />
                                         <input
                                             v-model="editForm.font_color"
@@ -262,7 +262,7 @@
 
                                 <!-- Contrast status -->
                                 <div 
-                                    class="rounded-lg px-2.5 py-1.5 text-xs font-medium transition"
+                                    class="rounded-lg px-2.5 py-1.5 text-xs font-medium leading-relaxed transition"
                                     :class="{
                                         'bg-green-400/20 text-green-300 border border-green-400/40': editFormContrast.status === 'good',
                                         'bg-yellow-400/20 text-yellow-300 border border-yellow-400/40': editFormContrast.status === 'warning',
