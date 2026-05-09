@@ -616,6 +616,17 @@ type SequenceRecord = {
 const countdowns = ref<CountdownRecord[]>([]);
 const sequences = ref<SequenceRecord[]>([]);
 const activeTab = ref<'create' | 'sequence' | 'control'>('create');
+
+const pageTitle = computed(() => {
+    if (activeTab.value === 'sequence') return 'Build Sequence | Global Clock';
+    if (activeTab.value === 'control') return 'Control Sequences | Global Clock';
+    return 'Countdown Admin | Global Clock';
+});
+
+useHead({
+    title: pageTitle,
+});
+
 const controlling = ref<number | null>(null);
 const feedback = ref("");
 const shareUrl = ref("");

@@ -68,6 +68,11 @@ import { useRouter } from 'vue-router'
 import { authService } from '../components/api/AuthService'
 
 const router = useRouter()
+
+useHead({
+    title: 'Sign In | Global Clock',
+})
+
 const form = reactive({ email: '', password: '' })
 const error = ref('')
 

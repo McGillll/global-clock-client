@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { countdownService } from "../../components/api/CountdownService";
 import { useCountdownDisplay } from "../../composables/useCountdownDisplay";
@@ -51,6 +51,13 @@ const route = useRoute();
 const token = String(route.params.token ?? "");
 const sequence = ref<any | null>(null);
 const serverNow = ref<number | null>(null);
+
+useHead({
+    title: computed(() => {
+        const name = String(sequence.value?.name ?? "").trim();
+        return name ? `${name} | Shared Timer` : "Shared Timer | Global Clock";
+    }),
+});
 
 const { activeItem, currentItemPosition, formattedRemaining, isFinished, currentLoop, loopCount } = useCountdownDisplay(sequence, serverNow);
 
