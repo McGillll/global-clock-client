@@ -33,8 +33,9 @@ import { useCountdownDisplay } from "../../composables/useCountdownDisplay";
 const route = useRoute();
 const token = String(route.params.token ?? "");
 const sequence = ref<any | null>(null);
+const serverNow = ref<number | null>(null);
 
-const { activeItem, currentItemPosition, formattedRemaining, isFinished, currentLoop, loopCount } = useCountdownDisplay(sequence);
+const { activeItem, currentItemPosition, formattedRemaining, isFinished, currentLoop, loopCount } = useCountdownDisplay(sequence, serverNow);
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
 let echoUnsubscribe: (() => void) | null = null;
@@ -42,6 +43,7 @@ let echoUnsubscribe: (() => void) | null = null;
 async function loadSequence() {
     const response = await countdownService.getSharedSequence(token);
     sequence.value = response.data?.sequence ?? response.data ?? null;
+    serverNow.value = response.now ?? null;
 
     // Subscribe to Echo channel if we now have a sequence ID
     if (sequence.value?.id && !echoUnsubscribe) {

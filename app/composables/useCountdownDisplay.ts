@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, onMounted, ref, type Ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
 
 type CountdownSequenceItem = {
     position: number;
@@ -19,8 +19,9 @@ type CountdownSequence = {
     items?: CountdownSequenceItem[];
 };
 
-export function useCountdownDisplay(sequence: Ref<CountdownSequence | null>) {
+export function useCountdownDisplay(sequence: Ref<CountdownSequence | null>, serverNow: Ref<number | null> = ref(null)) {
     const now = ref(Date.now());
+    const timeOffset = ref(0);
 
     const totalDuration = computed(() =>
         (sequence.value?.items ?? []).reduce((sum, item) => sum + item.countdown.duration_seconds, 0),
@@ -30,7 +31,8 @@ export function useCountdownDisplay(sequence: Ref<CountdownSequence | null>) {
 
     const elapsedSeconds = computed(() => {
         if (sequence.value?.status !== 'running' || !sequence.value.started_at) return 0;
-        return Math.floor((now.value - new Date(sequence.value.started_at).getTime()) / 1000);
+        const adjustedNow = now.value + timeOffset.value;
+        return Math.floor((adjustedNow - new Date(sequence.value.started_at).getTime()) / 1000);
     });
 
     // Sequence is done when elapsed has covered all loops
@@ -97,6 +99,12 @@ export function useCountdownDisplay(sequence: Ref<CountdownSequence | null>) {
     });
 
     let timer: ReturnType<typeof setInterval> | null = null;
+
+    watch(serverNow, (newServerNow) => {
+        if (newServerNow !== null) {
+            timeOffset.value = newServerNow - now.value;
+        }
+    });
 
     onMounted(() => {
         timer = setInterval(() => { now.value = Date.now(); }, 100);
