@@ -1,0 +1,22 @@
+/* Global background to prevent white flash on overscroll */
+:root, html, body, #__nuxt, #app {
+  height: 100%;
+  background: linear-gradient(180deg, #041024 0%, #071326 60%);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-attachment: fixed;
+}
+
+/* Ensure body covers the viewport and prevents background color leak */
+body {
+  margin: 0;
+  min-height: 100%;
+  overscroll-behavior-y: contain; /* reduce white flash on some platforms */
+}
+
+/* Make Nuxt root fill viewport so scrolling shows same bg */
+#__nuxt,
+#app {
+  min-height: 100%;
+}
